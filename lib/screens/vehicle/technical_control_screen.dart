@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:save_your_car/screens/auth/welcome_screen.dart';
+import 'package:save_your_car/screens/home/home_screen.dart';
 import 'package:save_your_car/theme/figma_color.dart';
 import 'package:save_your_car/widgets/stepper_components.dart';
 
@@ -184,7 +184,7 @@ class TechnicalControlScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const WelcomeScreen(),
+                            builder: (context) => const HomeScreen(),
                           ),
                         );
                       },
