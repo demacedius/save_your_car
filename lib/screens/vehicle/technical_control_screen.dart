@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:save_your_car/screens/home/home_screen.dart';
 import 'package:save_your_car/theme/figma_color.dart';
 import 'package:save_your_car/widgets/stepper_components.dart';
 
@@ -181,12 +180,7 @@ class TechnicalControlScreen extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/home");
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: FigmaColors.primaryMain,

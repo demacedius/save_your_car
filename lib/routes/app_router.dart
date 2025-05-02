@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:save_your_car/screens/auth/login_screen.dart';
 import 'package:save_your_car/screens/auth/sign_up_screen.dart';
 import 'package:save_your_car/screens/auth/welcome_screen.dart';
+import 'package:save_your_car/screens/home/home_screen.dart';
+import 'package:save_your_car/screens/vehicles/my_vehicles.dart';
 import 'package:save_your_car/screens/vehicle/matricule_screen.dart';
 import 'package:save_your_car/screens/vehicle/klm_screen.dart';
 import 'package:save_your_car/screens/vehicle/technical_control_screen.dart';
@@ -15,4 +17,6 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/matricule': (context) => const MatriculeScreen(),
   '/klm': (context) => const KlmScreen(),
   '/technical-control': (context) => const TechnicalControlScreen(),
+  '/home': (context) => const HomeScreen(),
+  '/vehicles':(context) => const MyVehicles(),
 };
