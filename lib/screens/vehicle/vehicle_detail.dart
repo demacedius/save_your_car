@@ -3,6 +3,7 @@ import 'package:save_your_car/theme/figma_color.dart';
 import 'package:save_your_car/theme/figma_text_style.dart';
 import 'package:save_your_car/widgets/Main_scaffold.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:save_your_car/widgets/filter_categorie.dart';
 
 class VehicleDetail extends StatelessWidget {
   const VehicleDetail({super.key});
@@ -14,6 +15,7 @@ class VehicleDetail extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               clipBehavior: Clip.none,
@@ -160,7 +162,12 @@ class VehicleDetail extends StatelessWidget {
                               style: textStyle.captionXSMedium,
                             ),
                             SizedBox(height: 2),
-                            Text("150.000Km", style: textStyle.textMBold.copyWith(color: FigmaColors.neutral70),)
+                            Text(
+                              "150.000Km",
+                              style: textStyle.textMBold.copyWith(
+                                color: FigmaColors.neutral70,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -186,10 +193,15 @@ class VehicleDetail extends StatelessWidget {
                               height: 32,
                               child: Icon(Icons.calendar_month_rounded),
                             ),
-                            SizedBox(height: 12,),
-                            Text("Contrôle", style: textStyle.captionXSMedium,),
+                            SizedBox(height: 12),
+                            Text("Contrôle", style: textStyle.captionXSMedium),
                             SizedBox(height: 2),
-                            Text("10/02/2026", style: textStyle.textMBold.copyWith(color: FigmaColors.neutral70),)
+                            Text(
+                              "10/02/2026",
+                              style: textStyle.textMBold.copyWith(
+                                color: FigmaColors.neutral70,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -197,6 +209,16 @@ class VehicleDetail extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            SizedBox(height: 64),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text("Pièces du véhicule", style: textStyle.textXXLBold),
+            ),
+            SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: FilterCategory(),
             ),
           ],
         ),
