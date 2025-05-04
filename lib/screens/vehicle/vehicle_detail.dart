@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:save_your_car/screens/document_screen.dart';
 import 'package:save_your_car/theme/figma_color.dart';
 import 'package:save_your_car/theme/figma_text_style.dart';
 import 'package:save_your_car/widgets/Main_scaffold.dart';
@@ -35,7 +36,9 @@ class VehicleDetail extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 64 + 56), // pour laisser la place au bouton back
+                      const SizedBox(
+                        height: 24,
+                      ), // pour laisser la place au bouton back
                       SvgPicture.asset(
                         "assets/images/Audi svg.svg",
                         width: 81,
@@ -45,7 +48,9 @@ class VehicleDetail extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         "Audi A8 Quattro",
-                        style: textStyle.headingSBold.copyWith(color: FigmaColors.neutral00),
+                        style: textStyle.headingSBold.copyWith(
+                          color: FigmaColors.neutral00,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Image.asset(
@@ -116,7 +121,7 @@ class VehicleDetail extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 64 + 54), // pour ne pas cacher les cards
+            const SizedBox(height: 64), // pour ne pas cacher les cards
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -134,10 +139,16 @@ class VehicleDetail extends StatelessWidget {
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 itemCount: 10,
-                itemBuilder: (context, index) =>  Padding(
-                  padding: EdgeInsets.only(bottom: 12),
-                  child: PiecesCard(),
-                ),
+                itemBuilder:
+                    (context, index) => Padding(
+                      padding: EdgeInsets.only(bottom: 12),
+                      child: GestureDetector(
+                        onTap: () => {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentScreen()))
+                        },
+                        child: PiecesCard(),
+                      ),
+                    ),
               ),
             ),
           ],
@@ -175,7 +186,9 @@ class VehicleDetail extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             title,
-            style: textStyle.captionXSMedium.copyWith(color: FigmaColors.neutral70),
+            style: textStyle.captionXSMedium.copyWith(
+              color: FigmaColors.neutral70,
+            ),
           ),
           const SizedBox(height: 2),
           Text(value, style: textStyle.textMBold),
