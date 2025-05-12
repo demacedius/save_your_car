@@ -1,11 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:save_your_car/api_service/api_service.dart';
 import 'package:save_your_car/theme/figma_color.dart';
 import 'package:save_your_car/widgets/stepper_components.dart';
 import 'klm_screen.dart';
-class MatriculeScreen extends StatelessWidget {
-  const MatriculeScreen({super.key});
 
+class MatriculeScreen extends StatelessWidget {
+  MatriculeScreen({super.key});
+  final TextEditingController _plateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +95,10 @@ class MatriculeScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: FigmaColors.neutral70, width: 3),
+                      border: Border.all(
+                        color: FigmaColors.neutral70,
+                        width: 3,
+                      ),
                     ),
                     child: Row(
                       children: [
@@ -147,6 +152,7 @@ class MatriculeScreen extends StatelessWidget {
                         ),
                         Expanded(
                           child: TextField(
+                            controller: _plateController,
                             textAlign: TextAlign.center,
                             decoration: const InputDecoration(
                               hintText: 'AA-123-AA',
@@ -178,13 +184,23 @@ class MatriculeScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const KlmScreen(),
-                      ),
+                  onPressed: () async {
+                    final vehicle = await fetchVehicleInfo(
+                      _plateController.text,
                     );
+
+                    if (vehicle != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => KlmScreen(vehicle: vehicle),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Véhicule introuvable")),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: FigmaColors.primaryMain,
@@ -210,10 +226,3 @@ class MatriculeScreen extends StatelessWidget {
     );
   }
 }
-
-// Move these classes to lib/widgets/stepper_components.dart
-// Add imports:
-// import 'package:flutter/material.dart';
-// import 'package:save_your_car/theme/figma_color.dart';
-
-

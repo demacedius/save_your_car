@@ -44,4 +44,19 @@ export default class UsersController {
           token: token.value,
         }
       }
+      public async registerWithVehicle({ request, response }: HttpContext) {
+        const userData = request.only(['fullName', 'email', 'password'])
+        const vehicleData = request.input('vehicle')
+      
+        const user = await User.create(userData)
+        await user.related('vehicles').create(vehicleData)
+      
+        console.log('registerWithVehicle called')
+        console.log('Payload reçu :', request.all())
+        return response.created({
+          message: 'Utilisateur et véhicule enregistrés avec succès',
+          user
+        })
+      }
 }
+

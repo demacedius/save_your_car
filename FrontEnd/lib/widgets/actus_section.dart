@@ -9,7 +9,7 @@ class ActusSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200, // hauteur fixe, à ajuster selon la taille de tes cartes
+      height: 250, // hauteur fixe, à ajuster selon la taille de tes cartes
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 5,
@@ -33,6 +33,11 @@ class ActusSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Image.asset(
+                  "assets/images/actus.jpeg",
+                  height: 120,
+                  fit: BoxFit.cover,
+                ),
                 Text(
                   "Titre ${index + 1}",
                   style: FigmaTextStyles().textXXLBold

@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:auth_buttons/auth_buttons.dart';
+import 'package:save_your_car/models/vehicles.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  final VehicleData vehicle;
 
+  const SignUpScreen({super.key, required this.vehicle});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +42,8 @@ class SignUpScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 16, top: 8),
                         child: IconButton(
-                          icon: const Icon(Icons.arrow_back_ios, 
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
                             size: 20,
                             color: Colors.black,
                           ),
@@ -42,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Image.asset(
-                              "assets/images/logo.png",
+                              "assets/images/Group 1.png",
                               width: 60,
                               height: 60,
                             ),
@@ -80,13 +94,17 @@ class SignUpScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 32),
                   TextField(
+                    controller: _emailController,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       hintStyle: TextStyle(
                         color: Colors.grey[400],
                         fontSize: 16,
                       ),
-                      prefixIcon: Icon(Icons.email_outlined, color: Colors.grey[400]),
+                      prefixIcon: Icon(
+                        Icons.email_outlined,
+                        color: Colors.grey[400],
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.grey[300]!),
@@ -103,6 +121,7 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   TextField(
+                    controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Mot de passe',
@@ -110,8 +129,14 @@ class SignUpScreen extends StatelessWidget {
                         color: Colors.grey[400],
                         fontSize: 16,
                       ),
-                      prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[400]),
-                      suffixIcon: Icon(Icons.visibility_off_outlined, color: Colors.grey[400]),
+                      prefixIcon: Icon(
+                        Icons.lock_outline,
+                        color: Colors.grey[400],
+                      ),
+                      suffixIcon: Icon(
+                        Icons.visibility_off_outlined,
+                        color: Colors.grey[400],
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.grey[300]!),
@@ -128,6 +153,7 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   TextField(
+                    controller: _confirmPasswordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Confirmer le mot de passe',
@@ -135,8 +161,14 @@ class SignUpScreen extends StatelessWidget {
                         color: Colors.grey[400],
                         fontSize: 16,
                       ),
-                      prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[400]),
-                      suffixIcon: Icon(Icons.visibility_off_outlined, color: Colors.grey[400]),
+                      prefixIcon: Icon(
+                        Icons.lock_outline,
+                        color: Colors.grey[400],
+                      ),
+                      suffixIcon: Icon(
+                        Icons.visibility_off_outlined,
+                        color: Colors.grey[400],
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.grey[300]!),
@@ -157,7 +189,8 @@ class SignUpScreen extends StatelessWidget {
                     height: 56,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/matricule');
+                        registerUser();
+                        Navigator.pushNamed(context, '/home');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C63FF),
@@ -181,10 +214,7 @@ class SignUpScreen extends StatelessWidget {
                   const Row(
                     children: [
                       Expanded(
-                        child: Divider(
-                          color: Color(0xFFE5E5E5),
-                          thickness: 1,
-                        ),
+                        child: Divider(color: Color(0xFFE5E5E5), thickness: 1),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -198,10 +228,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: Divider(
-                          color: Color(0xFFE5E5E5),
-                          thickness: 1,
-                        ),
+                        child: Divider(color: Color(0xFFE5E5E5), thickness: 1),
                       ),
                     ],
                   ),
@@ -266,7 +293,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/login');
+                          registerUser();
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -294,4 +321,61 @@ class SignUpScreen extends StatelessWidget {
       ),
     );
   }
-} 
+
+  Future<void> registerUser() async {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Les mots de passe ne correspondent pas.')),
+      );
+      return;
+    }
+
+    final url = Uri.parse(
+      'http://10.0.2.2:3333/register-with-vehicle',
+    ); // ou /auth/registerWithVehicle selon ta route
+    final body = {
+      'email': email,
+      'password': password,
+      'fullName': '', // Tu peux ajouter un champ nom dans le formulaire
+      'plate': widget.vehicle.plate,
+      'model': widget.vehicle.model,
+      'brand': widget.vehicle.brand,
+      'year': widget.vehicle.year,
+      'mileage': widget.vehicle.mileage,
+      'technicalControlDate': widget.vehicle.technicalControlDate?.toIso8601String(),
+      'imageUrl': widget.vehicle.imageUrl,
+    };
+
+    try {
+      print(jsonEncode(body));      if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Veuillez remplir tous les champs.')),
+        );
+        return;
+      }      
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 201) {
+        Navigator.pushNamed(context, '/home');
+      } else {
+        print('Erreur: ${response.body}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erreur : ${response.statusCode}')),
+        );
+      }
+    } catch (e) {
+      print('Erreur: $e');
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Une erreur est survenue')));
+    }
+  }
+}

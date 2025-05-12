@@ -26,42 +26,54 @@ class ShortcutGrid extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           mainAxisSpacing: 12,
           crossAxisSpacing: 12,
-          children: shortcuts.map((text) {
-            return Container(
-              height: 178,
-              width: 138,
-              decoration: BoxDecoration(
-                color: FigmaColors.neutral10,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 48,
-                    width: 48,
+          children:
+              shortcuts.map((text) {
+                final bool isDisable = text == "Pièces";
+                return Opacity(
+                  opacity: isDisable ? 0.5 : 1,
+                  child: Container(
+                    height: 178,
+                    width: 138,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: FigmaColors.primaryFocus,
+                      color:
+                          isDisable
+                              ? FigmaColors.neutral30
+                              : FigmaColors.neutral10,
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Center(
-                      child: Image.asset(
-                        "assets/images/car-parts 1.png",
-                        height: 24,
-                      ),
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 48,
+                          width: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color:
+                                isDisable
+                                    ? FigmaColors.neutral50
+                                    : FigmaColors.primaryFocus,
+                          ),
+                          child: Center(
+                            child: Image.asset(
+                              "assets/images/car-parts 1.png",
+                              height: 24,
+                              color: isDisable ? Colors.grey.shade600 : null,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 9),
+                        Text(
+                          text,
+                          textAlign: TextAlign.center,
+                          style: textStyles.textLBold,
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 9),
-                  Text(
-                    text,
-                    textAlign: TextAlign.center,
-                    style: textStyles.textLBold,
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
+                );
+              }).toList(),
         ),
       ],
     );

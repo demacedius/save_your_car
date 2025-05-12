@@ -27,7 +27,7 @@
   },
   {
     "level_": 0,
-    "message_": "- no fingerprint file, will remove stale configuration folder",
+    "message_": "- a file changed",
     "file_": "/Users/demacedoanthony/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt",
     "tag_": "profile|x86",
     "diagnosticCode_": 0,
@@ -40,7 +40,7 @@
   },
   {
     "level_": 0,
-    "message_": "removing stale contents from \u0027/Users/demacedoanthony/Desktop/save_your_car/FrontEnd/android/app/.cxx/Debug/1b6s4949/x86\u0027",
+    "message_": "  - /Users/demacedoanthony/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt (LAST_MODIFIED_CHANGED)",
     "file_": "/Users/demacedoanthony/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt",
     "tag_": "profile|x86",
     "diagnosticCode_": 0,
@@ -53,7 +53,7 @@
   },
   {
     "level_": 0,
-    "message_": "created folder \u0027/Users/demacedoanthony/Desktop/save_your_car/FrontEnd/android/app/.cxx/Debug/1b6s4949/x86\u0027",
+    "message_": "keeping json folder \u0027/Users/demacedoanthony/Desktop/save_your_car/FrontEnd/android/app/.cxx/Debug/1b6s4949/x86\u0027 but regenerating project",
     "file_": "/Users/demacedoanthony/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt",
     "tag_": "profile|x86",
     "diagnosticCode_": 0,

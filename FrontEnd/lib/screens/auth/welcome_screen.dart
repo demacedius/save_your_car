@@ -54,7 +54,7 @@ class WelcomeScreen extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    Navigator.pushNamed(context, '/matricule');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: FigmaColors.primaryMain,

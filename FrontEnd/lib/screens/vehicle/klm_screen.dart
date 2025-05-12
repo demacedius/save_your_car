@@ -1,9 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:save_your_car/models/vehicles.dart';
 import 'package:save_your_car/theme/figma_color.dart';
 import 'package:save_your_car/widgets/stepper_components.dart';
 import 'technical_control_screen.dart';
-class KlmScreen extends StatelessWidget {
-  const KlmScreen({super.key});
+
+class KlmScreen extends StatefulWidget {
+  final VehicleData vehicle;
+  const KlmScreen({super.key, required this.vehicle});
+
+  static Route route(RouteSettings settings) {
+    final vehicle = settings.arguments as VehicleData;
+    return MaterialPageRoute(
+      builder: (_) => KlmScreen(vehicle: vehicle),
+    );
+  }
+
+  @override
+  State<KlmScreen> createState() => _KlmScreenState();
+}
+
+class _KlmScreenState extends State<KlmScreen> {
+  final TextEditingController _kmController = TextEditingController();
+
+  @override
+  void dispose() {
+    _kmController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,33 +41,23 @@ class KlmScreen extends StatelessWidget {
               const SizedBox(height: 40),
               Row(
                 children: [
-                  Center(
-                    child: Container(
-                      width: 28,
-                      height: 28,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xFFE4E4E4),
-                          width: 1,
-                        ),
-                      ),
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        icon: const Icon(
-                          Icons.chevron_left,
-                          size: 20,
-                          color: Colors.black,
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                      ),
+                  Container(
+                    width: 28,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: const Color(0xFFE4E4E4), width: 1),
+                    ),
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(Icons.chevron_left, size: 20, color: Colors.black),
+                      onPressed: () => Navigator.pop(context),
                     ),
                   ),
                   const SizedBox(width: 10.9),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       StepDot(isActive: false),
                       StepLine(isActive: false),
                       StepDot(isActive: true),
@@ -52,9 +65,7 @@ class KlmScreen extends StatelessWidget {
                       StepDot(isActive: false),
                     ],
                   ),
-                  const SizedBox(
-                    width: 40,
-                  ), // Pour équilibrer avec le bouton retour
+                  const SizedBox(width: 40),
                 ],
               ),
               const SizedBox(height: 40),
@@ -69,59 +80,54 @@ class KlmScreen extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 'Pour accéder aux caractéristiques techniques de votre véhicule, merci de fournir les informations demandées dans les champs prévus à cet effet.',
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Plus Jakarta Sans',
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  height: 24 / 16,
+                  height: 1.5,
                   color: FigmaColors.neutral70,
                 ),
               ),
               const SizedBox(height: 32),
               Container(
-                width: 380,
+                width: double.infinity,
                 height: 201,
                 decoration: BoxDecoration(
                   color: FigmaColors.primaryFocus,
                   borderRadius: BorderRadius.circular(24),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 21, top: 46, bottom: 67),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Quel est le kilométrage de votre véhicule ?',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: 'Plus Jakarta Sans',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          height: 20/14,
-                          letterSpacing: 0.01,
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 46, bottom: 67),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Quel est le kilométrage de votre véhicule ?',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Plus Jakarta Sans',
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _kmController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: FigmaColors.neutral10,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                        hintText: '125356 km',
+                        hintStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFFC9C8C9),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: FigmaColors.neutral10,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
-                          ),
-                          hintText: '125356 km',
-                          hintStyle: const TextStyle(
-                            fontFamily: 'Plus Jakarta Sans',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            height: 24/16,
-                            color: Color(0xFFC9C8C9),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const Spacer(),
@@ -154,14 +160,23 @@ class KlmScreen extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TechnicalControlScreen(),
-                          ),
-                        );
+                        final km = int.tryParse(_kmController.text.replaceAll(' ', ''));
+                        if (km != null) {
+                          final updatedVehicle = widget.vehicle.copyWith(mileage: km);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TechnicalControlScreen(vehicle: updatedVehicle),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Veuillez entrer un kilométrage valide')),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
+                        
                         backgroundColor: FigmaColors.primaryMain,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -172,6 +187,7 @@ class KlmScreen extends StatelessWidget {
                       child: const Text(
                         'Continuer',
                         style: TextStyle(
+                          inherit: true,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
